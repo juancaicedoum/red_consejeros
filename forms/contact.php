@@ -1,41 +1,81 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
+require '../PHPMailer/src/Exception.php';
+require '../PHPMailer/src/PHPMailer.php';
+require '../PHPMailer/src/SMTP.php';
+
+//CONFIGURE JSON reponse
+$reponse = [
+  'top_err' => '',
+  'top_succes' => '',
+  'to_err' => '',
+  'subject_err' => '',
+  'message_err' => '',
+];
+
+try{
+    $mail = new PHPMailer(true);
+    $mail->isSMTP();
+    $mail->Host       = $_SERVER['HTTP_PHP_MAILER_HOST'];
+    $mail->SMTPAuth   = true;
+    $mail->Port       = $_SERVER['HTTP_PHP_MAILER_PORT'];
+    $mail->Username   = $_SERVER['HTTP_PHP_MAILER_USERNAME'];
+    $mail->Password   = $_SERVER['HTTP_PHP_MAILER_PASSWORD'];
+  }catch(Exception $e){
+    $reponse['top_err'] = 'Lo sentimos, presentamos problemas enviando tu email';
+    exit(json_encode($reponse));
   }
+$contentType = isset($_SERVER['CONTENT_TYPE']) ? trim($_SERVER['CONTENT_TYPE']) :
+'';
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+if($contentType == 'application/json'){
+  $content = trim(file_get_contents(('php://input')));
+  //CONVERT CONTENT INTO PHP ARRAY
+  $decoded = json_decode($content, true);
+  if(is_array($decoded)){
+    //Sanitize Input Data
+    foreach($decoded as $name => $value){
+      $decoded[$name] = trim(filter_var($value, FILTER_SANITIZE_STRING));
+    }
+    //ERROR CHECKING
+    if(empty($decoded['to'])){
+      $reponse['to_err'] = 'Error. Este campo no puede estar vacio.';
+    }else if(!filter_var($decoded['to'], FILTER_SANITIZE_STRING)){
+      $reponse['to_err'] = 'Error. Este campo debe tener un Email valido.';
+    }
+    if(empty($decoded['subject'])){
+      $reponse['subject_err'] = 'Error. Este campo no puede estar vacio.';
+    }
+    if(empty($decoded['message'])){
+      $reponse['message_err'] = 'Error. Este campo no puede estar vacio.';
+    }
+    //Can´t send the email if we already have a response to show
+    foreach($reponse as $type => $message){
+      if(!empty($reponse[$type])){
+        exit(json_encode($reponse));
+      }
+    }
+    //ACTUALLY SEND EMAIL
+    try{
+      $mail->setFrom('reddeconsejerosum@gmail.com');
+      $mail->subject = $decoded['subject'];
+      $mail->isHTML(true);
+      $mail->Body = '<p>'.$decoded['message'].'</p>';
+      $mail->addAdress($decoded['to']);
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+      $mail->send();
+    }catch(Exception $e){
+      $reponse['top_err'] = 'Lo sentimos, presentamos problemas enviando tu email';
+      exit(json_encode($reponse));
+    }
+    //Success response
+    $reponse['top_success'] = 'Listo. El mensaje fue enviado con éxito.';
+    exit(json_encode($reponse));
+  }
+}
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
-
-  echo $contact->send();
-?>
+$reponse['top_err'] = 'Lo sentimos, presentamos problemas enviando tu email';
+exit(json_encode($reponse));
