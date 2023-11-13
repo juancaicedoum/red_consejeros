@@ -376,7 +376,7 @@ h6 {
 .navbar-mobile a:hover,
 .navbar-mobile .active,
 .navbar-mobile li:hover>a {
-  color: #0e5858;
+  color: #1d8989;
 }
 
 .navbar-mobile .getstarted,
@@ -1058,7 +1058,7 @@ section {
 /* iphone xr width */
 @media (max-width: 767px) {
   .gallery .ig-feed {
-    height: 365px;
+    height: 360px;
   }
 }
 
