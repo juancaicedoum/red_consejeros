@@ -376,7 +376,7 @@ h6 {
 .navbar-mobile a:hover,
 .navbar-mobile .active,
 .navbar-mobile li:hover>a {
-  color: #3f43fd;
+  color: #0e5858;
 }
 
 .navbar-mobile .getstarted,
@@ -1753,4 +1753,26 @@ section {
   #footer .footer-top .footer-info {
     margin: -20px 0 30px 0;
   }
+}
+
+/* Gestiones Section */
+.gestiones .container {
+  height: 200px;
+  position: relative;
+  padding-left: 15%;
+  padding-right: 15%;
+  /*border: 3px solid green;*/
+}
+
+/* Gestiones btn*/
+.gestiones .btn{
+  border-color: #149f6e;
+  width: 100%;
+}
+
+.gestiones .btn:hover{
+  color: #ffffff;
+  background-color: #149f6e;
+  border-color: #149f6e;
+  width: 100%;
 }
