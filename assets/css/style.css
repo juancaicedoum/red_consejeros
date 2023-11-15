@@ -1058,7 +1058,7 @@ section {
 /* iphone xr width */
 @media (max-width: 767px) {
   .gallery .ig-feed {
-    height: 360px;
+    height: 350px;
   }
 }
 
