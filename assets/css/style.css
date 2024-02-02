@@ -1453,13 +1453,13 @@ section {
 
 /* reportes */
 /* cards */
-.espacios .hover {
+.reportes .hover {
   overflow: hidden;
   position: relative;
   padding-bottom: 60%;
 }
 
-.espacios .hover-overlay {
+.reportes .hover-overlay {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -1469,7 +1469,7 @@ section {
   transition: all 0.4s;
 }
 
-.espacios .hover img {
+.reportes .hover img {
   width: 100%;
   position: absolute;
   top: 0;
@@ -1477,14 +1477,14 @@ section {
   transition: all 0.3s;
 }
 
-.espacios .hover-content {
+.reportes .hover-content {
   position: relative;
   z-index: 99;
 }
 
 
 /* DEMO 1 ============================== */
-.espacios .hover-1 img {
+.reportes .hover-1 img {
   width: 105%;
   position: absolute;
   top: 0;
@@ -1492,7 +1492,7 @@ section {
   transition: all 0.3s;
 }
 
-.espacios .hover-1-content {
+.reportes .hover-1-content {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -1500,37 +1500,37 @@ section {
   transition: all 0.4s;
 }
 
-.espacios .hover-1 .hover-overlay {
+.reportes .hover-1 .hover-overlay {
   background: rgba(0, 0, 0, 0.2);
 }
 
-.espacios .hover-1-description {
+.reportes .hover-1-description {
   font-size: small;
   transform: translateY(0.5rem);
   transition: all 0.4s;
   opacity: 0;
 }
 
-.espacios .hover-1:hover .hover-1-content {
+.reportes .hover-1:hover .hover-1-content {
   bottom: 2rem;
 }
 
-.espacios .hover-1:hover .hover-1-description {
+.reportes .hover-1:hover .hover-1-description {
   opacity: 1;
   transform: none;
 
 }
 
-.espacios .hover-1:hover img {
+.reportes .hover-1:hover img {
   left: 0;
 }
 
-.espacios .hover-1:hover .hover-overlay {
+.reportes .hover-1:hover .hover-overlay {
   /*opacity: 0;*/
   background: rgba(0, 0, 0, 0.5);
 }
 
-.espacios .hover-1-title {
+.reportes .hover-1-title {
   /*center this title */
   text-shadow: rgb(0, 0, 0) 1px 0 10px;
   position: absolute;
@@ -1540,7 +1540,7 @@ section {
 
 }
 
-.espacios .hover-1:hover .hover-1-title {
+.reportes .hover-1:hover .hover-1-title {
   transition: all 0.4s;
   opacity: 0;
 }
